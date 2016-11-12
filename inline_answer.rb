@@ -35,12 +35,13 @@ module InlineAnswer
 
   def make_photo_answer(photo_url, title)
     [1..5].map do |id|
-    Telegram::Bot::Types::InlineQueryResultPhoto.new(
-      type: 'photo',
-      id: id,
-      title: title,
-      photo_url: photo_url[:img_big],
-      thumb_url: photo_url[:thumb_img]
-    )
+      Telegram::Bot::Types::InlineQueryResultPhoto.new(
+        type: 'photo',
+        id: id,
+        title: title,
+        photo_url: photo_url[:img_big],
+        thumb_url: photo_url[:thumb_img]
+      )
+    end
   end
 end
