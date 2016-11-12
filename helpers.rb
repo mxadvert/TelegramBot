@@ -28,13 +28,20 @@ module Helpers
   end
 
   def catch_mem
-    data = JSON.parse(URI.parse("https://api.vk.com/method/wall.get?domain=emoboys&count=100&offset=10").read)
-    return nil if data.nil? 
+    data = JSON.parse(URI.parse(vk_source.sample).read)
+    return nil if data.nil?
     img_big = data['response'][Random.new.rand(1..14)]['attachment']['photo']['src_big']
     img = data['response'][Random.new.rand(1..14)]['attachment']['photo']['src']
 		open('image.jpg', 'wb') do |file|
       file << open(img_big).read
     end
     {img_big: img_big, thumb_img: img}
+  end
+
+  def vk_source
+    %w(
+    https://api.vk.com/method/wall.get?domain=emoboys&count=100&offset=10
+    https://api.vk.com/method/wall.get?domain=steniweebanoe2&count=100&offset=10
+    )
   end
 end
