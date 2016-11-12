@@ -5,6 +5,7 @@ module InlineAnswer
     case message.query
     when '/start'
       text =  "Я #{@dictionary[:property_words].sample} #{@dictionary[:who_words].sample} запустил бота"
+      keyboard = Telegram::Bot::Types::ReplyKeyboardMarkup.new(keyboard: [%w(Привет Предсказание), %w(Мем Ахах)], one_time_keyboard: true)
       response_with do
         bot.api.answer_inline_query(inline_query_id: message.id, results: make_text_answer(text, 'нууу привет'))
       end
@@ -25,11 +26,12 @@ module InlineAnswer
   end
 
   private
-  def  make_text_answer(text, title)
+  def  make_text_answer(text, title, keyboard)
     [Telegram::Bot::Types::InlineQueryResultArticle.new(
       id: '10',
       title: title,
-      input_message_content: Telegram::Bot::Types::InputTextMessageContent.new(message_text: text)
+      input_message_content: Telegram::Bot::Types::InputTextMessageContent.new(message_text: text),
+      reply_markup: keyboard
     )]
   end
 
