@@ -1,7 +1,7 @@
 module MessageAnswer
   def answer_to_message(message, bot)
-    unless message.text
-      if @dictionary[:hello_words].include? Unicode::downcase(message.text || '')
+    unless message.text.nil?
+      if @dictionary[:hello_words].include? Unicode::downcase(message.text)
         text = "Воспользуйся клавиатурой #{@dictionary[:property_words].sample} #{@dictionary[:who_words].sample}\n
         кликай квадратик возле отправки сообщения для просмотра команд."
         keyboard = Telegram::Bot::Types::ReplyKeyboardMarkup.new(keyboard: [%w(Привет Предсказание), %w(Мем Ахах)], one_time_keyboard: true)
