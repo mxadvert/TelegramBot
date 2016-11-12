@@ -36,8 +36,8 @@ module InlineAnswer
   end
 
   def make_photo_answer
-    photo_url = catch_mem
     [1..5].map do |id|
+      photo_url = catch_mem
       Telegram::Bot::Types::InlineQueryResultPhoto.new(
         type: 'photo',
         id: id,
