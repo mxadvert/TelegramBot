@@ -30,8 +30,9 @@ module Helpers
   def catch_mem
     data = JSON.parse(URI.parse(vk_source.sample).read)
     return nil if data.nil?
-    img_big = data['response'][Random.new.rand(1..14)]['attachment']['photo']['src_big']
-    img = data['response'][Random.new.rand(1..14)]['attachment']['photo']['src']
+    imgs = get_photo_from_response(data)
+    img_big = imgs['src_big']
+    img = imgs['src']
 		open('image.jpg', 'wb') do |file|
       file << open(img_big).read
     end
@@ -41,7 +42,16 @@ module Helpers
   def vk_source
     %w(
     https://api.vk.com/method/wall.get?domain=emoboys&count=100&offset=10
-    https://api.vk.com/method/wall.get?domain=steniweebanoe2&count=100&offset=10
     )
+  end
+
+  def get_photo_from_response(data)
+    att_number = Random.new.rand(1..99)
+    data = data['response']
+    if data[att_number].has_key?('attachment') && data[att_number]['attachment'].has_key?('photo')
+      data[att_number]['attachment']['photo']
+    else
+      get_photo_from_response(data)
+    end
   end
 end
