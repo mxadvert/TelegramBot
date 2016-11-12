@@ -4,7 +4,7 @@ module InlineAnswer
     puts message.inspect
     case message.query
     when '/start'
-      text =  "Я #{@dictionary[:property_words].sample} #{@dictionary[:who_words].sample}\n запустил бота"
+      text =  "Я #{@dictionary[:property_words].sample} #{@dictionary[:who_words].sample} запустил бота"
       response_with do
         bot.api.answer_inline_query(inline_query_id: message.id, results: make_text_answer(text, 'нууу привет'))
       end
@@ -34,12 +34,13 @@ module InlineAnswer
   end
 
   def make_photo_answer(photo_url, title)
-    [Telegram::Bot::Types::InlineQueryResultPhoto.new(
+    [1..5].map do |id|
+    Telegram::Bot::Types::InlineQueryResultPhoto.new(
       type: 'photo',
-      id: '10',
+      id: id,
       title: title,
       photo_url: photo_url[:img_big],
       thumb_url: photo_url[:thumb_img]
-    )]
+    )
   end
 end
