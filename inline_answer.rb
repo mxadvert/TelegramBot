@@ -19,7 +19,7 @@ module InlineAnswer
     when '/mem' || '/memas'
       photo_url = catch_mem
       response_with do
-        bot.api.answer_inline_query(inline_query_id: message.id, results: make_photo_answer(photo_url, 'хочешь мем?'))
+        bot.api.answer_inline_query(inline_query_id: message.id, results: make_photo_answer
       end
     end
 
@@ -36,11 +36,12 @@ module InlineAnswer
   end
 
   def make_photo_answer(photo_url, title)
+    photo_url = catch_mem
     [1..5].map do |id|
       Telegram::Bot::Types::InlineQueryResultPhoto.new(
         type: 'photo',
         id: id,
-        title: title,
+        title: 'хочешь мем?',
         photo_url: photo_url[:img_big],
         thumb_url: photo_url[:thumb_img]
       )
