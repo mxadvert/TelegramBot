@@ -14,11 +14,16 @@ module MessageAnswer
         end
 
       elsif @dictionary[:mem_words].any?{ |word| message.text.split.map{|a| Unicode::downcase a}.include? word}
-        catch_mem
-        response_with do
-          bot.api.send_photo(chat_id: message.chat.id, photo: Faraday::UploadIO.new('image.jpg', 'image/jpeg'))
+        mem = catch_mem
+        if mem.nil?
+          response_with do
+              bot.api.sendMessage(chat_id: message.chat.id,text: 'не получилось скачать мем(((')
+          end
+        else
+          response_with do
+            bot.api.send_photo(chat_id: message.chat.id, photo: Faraday::UploadIO.new('image.jpg', 'image/jpeg'))
+          end
         end
-
 
       elsif @dictionary[:laugh_words].any?{ |word| message.text.split.map{|a| Unicode::downcase a}.include? word}
         response_with do

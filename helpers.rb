@@ -29,6 +29,7 @@ module Helpers
 
   def catch_mem
     data = JSON.parse(URI.parse("https://api.vk.com/method/wall.get?domain=emoboys&count=100&offset=10").read)
+    return nil if data.nil? 
     img_big = data['response'][Random.new.rand(1..14)]['attachment']['photo']['src_big']
     img = data['response'][Random.new.rand(1..14)]['attachment']['photo']['src']
 		open('image.jpg', 'wb') do |file|
