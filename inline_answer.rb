@@ -7,7 +7,7 @@ module InlineAnswer
       text =  "Я #{@dictionary[:property_words].sample} #{@dictionary[:who_words].sample} запустил бота"
       keyboard = Telegram::Bot::Types::ReplyKeyboardMarkup.new(keyboard: [%w(Привет Предсказание), %w(Мем Ахах)], one_time_keyboard: true)
       response_with do
-        bot.api.answer_inline_query(inline_query_id: message.id, results: make_text_answer(text, 'нууу привет'))
+        bot.api.answer_inline_query(inline_query_id: message.id, results: make_text_answer(text, 'нууу привет', keyboard))
       end
 
     when '/prediction'
@@ -26,7 +26,7 @@ module InlineAnswer
   end
 
   private
-  def  make_text_answer(text, title, keyboard)
+  def  make_text_answer(text, title, keyboard = nil)
     [Telegram::Bot::Types::InlineQueryResultArticle.new(
       id: '10',
       title: title,
