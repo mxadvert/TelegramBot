@@ -1,7 +1,6 @@
 module InlineAnswer
+  require 'enumerator'
   def answer_to_inline(message, bot)
-    puts message.query
-    puts message.inspect
     case message.query
     when '/start'
       text =  "Я #{@dictionary[:property_words].sample} #{@dictionary[:who_words].sample} запустил бота"
@@ -16,7 +15,7 @@ module InlineAnswer
           results: make_text_answer(prediction(message.from.first_name), 'предсказание? да?'))
       end
 
-    when '/mem' || '/memas'
+    when '/mem'
       photo_url = catch_mem
       response_with do
         bot.api.answer_inline_query(inline_query_id: message.id, results: make_photo_answer)
@@ -36,14 +35,17 @@ module InlineAnswer
   end
 
   def make_photo_answer
-    [1..5].map do |id|
-      photo_url = catch_mem
+    memes = []
+    5.times do
+      memes << catch_mem
+    end
+    memes.map do |mem, i|
       Telegram::Bot::Types::InlineQueryResultPhoto.new(
         type: 'photo',
-        id: id,
+        id: Random.new.rand(1..100_000),
         title: 'хочешь мем?',
-        photo_url: photo_url[:img_big],
-        thumb_url: photo_url[:thumb_img]
+        photo_url: mem[:img_big],
+        thumb_url: mem[:thumb_img]
       )
     end
   end
