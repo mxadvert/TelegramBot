@@ -1,4 +1,7 @@
+require 'pry'
 module Helpers
+  ACCESS_TOKEN =
+    '48674adb48674adb48674adb10483794454486748674adb11d7b48d3e8492ac8148c430'
 
   def response_with
     begin
@@ -28,7 +31,7 @@ module Helpers
   end
 
   def catch_mem
-    data = JSON.parse(URI.parse(vk_source.sample).read)
+    data = JSON.parse(URI.parse(vk_sources.sample).read)
     return nil if data.nil?
     imgs = get_photo_from_response(data)
     img_big = imgs['src_big']
@@ -39,10 +42,12 @@ module Helpers
     {img_big: img_big, thumb_img: img}
   end
 
-  def vk_source
-    %w(
-    https://api.vk.com/method/wall.get?domain=emoboys&count=100&offset=10
-    )
+  def vk_sources
+    %w( emoboys ).map { |domain| vk_source(domain) }
+  end
+
+  def vk_source(domain)
+    "https://api.vk.com/method/wall.get?domain=#{domain}&count=100&offset=10&access_token=#{ACCESS_TOKEN}"
   end
 
   def get_photo_from_response(data)
