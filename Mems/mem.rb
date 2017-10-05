@@ -16,7 +16,7 @@ module Mem
 
     def catch_mem_with_sizes
       imgs = get_photo_json
-      {img_big: imgs['src_big'], thumb_img: imgs['src_small']}
+      {img_big: imgs['src_big'], thumb_img: imgs['src']}
     end
 
     private
