@@ -3,16 +3,15 @@ module InlineAnswer
   def answer_to_inline(message, bot)
     case message.query
     when '/start'
-      text =  "Я #{@dictionary[:property_words].sample} #{@dictionary[:who_words].sample} запустил бота"
-      keyboard = Telegram::Bot::Types::ReplyKeyboardMarkup.new(keyboard: [%w(Привет Предсказание), %w(Мем Ахах)], one_time_keyboard: true)
+      text = "Я #{@dictionary[:property_words].sample} #{@dictionary[:who_words].sample} запустил бота"
       response_with do
-        bot.api.answer_inline_query(inline_query_id: message.id, results: make_text_answer(text, 'нууу привет', keyboard))
+        bot.api.answer_inline_query(inline_query_id: message.id, results: make_text_answer(text, 'нууу привет', Helpers.keyboard))
       end
 
     when '/prediction'
       response_with do
         bot.api.answer_inline_query(inline_query_id: message.id,
-          results: make_text_answer(prediction(message.from.first_name), 'предсказание? да?'))
+                                    results: make_text_answer(prediction(message.from.first_name), 'предсказание? да?'))
       end
 
     when '/mem'
@@ -21,11 +20,11 @@ module InlineAnswer
         bot.api.answer_inline_query(inline_query_id: message.id, results: make_photo_answer)
       end
     end
-
   end
 
   private
-  def  make_text_answer(text, title, keyboard = nil)
+
+  def make_text_answer(text, title, keyboard = nil)
     [Telegram::Bot::Types::InlineQueryResultArticle.new(
       id: '10',
       title: title,
@@ -39,7 +38,7 @@ module InlineAnswer
     5.times do
       memes << Mem.catch_mem_with_sizes
     end
-    memes.map do |mem, i|
+    memes.map do |mem, _i|
       Telegram::Bot::Types::InlineQueryResultPhoto.new(
         type: 'photo',
         id: Random.new.rand(1..100_000),

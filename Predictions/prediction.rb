@@ -3,12 +3,12 @@ require_relative './dictionary'
 module Prediction
   class << self
     def call
-      [date, to, what, happened].join(" ") 
+      [date, to, what, happened].join(' ')
     end
 
     private
 
-    def date 
+    def date
       Prediction::Dictionary.date.sample
     end
 

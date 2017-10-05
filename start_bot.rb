@@ -4,9 +4,6 @@ require './inline_answer'
 
 require 'telegram/bot'
 require 'unicode'
-require 'open-uri'
-require 'net/http'
-require 'json'
 require 'logger'
 
 include Helpers

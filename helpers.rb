@@ -4,14 +4,19 @@ require './Dictionary/dictionary'
 
 module Helpers
   def response_with
-    begin
-      yield
-    rescue Telegram::Bot::Exceptions::ResponseError => e
-      puts e
-    end
+    yield
+  rescue Telegram::Bot::Exceptions::ResponseError => e
+    puts e
   end
 
-  def prediction user
+  def keyboard
+    Telegram::Bot::Types::ReplyKeyboardMarkup.new(
+      keyboard: [%w[Предсказание], %w[Мем]],
+      one_time_keyboard: true
+    )
+  end
+
+  def prediction(user)
     "Итак, #{user}\n" + Prediction.call
   end
 
