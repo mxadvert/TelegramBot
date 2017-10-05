@@ -37,7 +37,7 @@ module InlineAnswer
   def make_photo_answer
     memes = []
     5.times do
-      memes << catch_mem
+      memes << Mem.catch_mem_with_sizes
     end
     memes.map do |mem, i|
       Telegram::Bot::Types::InlineQueryResultPhoto.new(

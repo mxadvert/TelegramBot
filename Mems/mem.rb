@@ -10,15 +10,21 @@ module Mem
 
   class << self
     def catch_mem
+      imgs =  get_photo_json
+      imgs['src_big']
+    end
+
+    def catch_mem_with_sizes
+      imgs = get_photo_json
+      {img_big: imgs['src_big'], thumb_img: imgs['src_small']}
+    end
+
+    private
+
+    def get_photo_json
       data = JSON.parse(URI.parse(vk_sources.sample).read)
-      return nil if data.nil?
-      imgs = get_photo_from_response(data)
-      img_big = imgs['src_big']
-      img = imgs['src']
-      open('../image.jpg', 'wb') do |file|
-        file << open(img_big).read
-      end
-      {img_big: img_big, thumb_img: img}
+      Raise 'Error, no response from VK' if data.nil?
+      return get_photo_from_response(data)
     end
 
     def vk_sources

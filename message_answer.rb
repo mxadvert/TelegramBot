@@ -21,7 +21,7 @@ module MessageAnswer
           end
         else
           response_with do
-            bot.api.send_photo(chat_id: message.chat.id, photo: Faraday::UploadIO.new('image.jpg', 'image/jpeg'))
+            bot.api.send_photo(chat_id: message.chat.id, photo: mem)
           end
         end
 
