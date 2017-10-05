@@ -1,3 +1,4 @@
+require 'pry'
 require 'json'
 require 'open-uri'
 
@@ -37,6 +38,7 @@ module Mem
     end
 
     def get_photo_from_response(data)
+      begin
       att_number = Random.new.rand(1..99)
       data = data['response']
       if data[att_number].key?('attachment') &&
@@ -45,6 +47,9 @@ module Mem
       else
         get_photo_from_response(data)
       end
+    end
+    rescue => e
+      binding.pry
     end
   end
 end
