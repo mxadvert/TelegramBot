@@ -38,18 +38,17 @@ module Mem
     end
 
     def get_photo_from_response(data)
-      begin
-      att_number = Random.new.rand(1..99)
+    begin
       data = data['response']
-      if data[att_number].key?('attachment') &&
-         data[att_number]['attachment'].key?('photo')
-        data[att_number]['attachment']['photo']
-      else
-        get_photo_from_response(data)
-      end
-    end
+      data.shift # remove first element, some meta data from vk
+
+      data = data.select { |d| d.dig('attachment', 'photo') }
+      att_number = Random.new.rand(0..data.length - 1)
+ 
+      data[att_number]['attachment']['photo']
     rescue => e
       binding.pry
+    end
     end
   end
 end
