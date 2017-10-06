@@ -38,17 +38,15 @@ module Mem
     end
 
     def get_photo_from_response(data)
-    begin
       data = data['response']
       data.shift # remove first element, some meta data from vk
 
       data = data.select { |d| d.dig('attachment', 'photo') }
       att_number = Random.new.rand(0..data.length - 1)
- 
+
       data[att_number]['attachment']['photo']
     rescue => e
       binding.pry
-    end
     end
   end
 end
