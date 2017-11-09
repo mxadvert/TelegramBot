@@ -1,1 +1,1 @@
-web: ruby start_bot.rb
+web: bundle exec rake run 
