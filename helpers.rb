@@ -1,6 +1,6 @@
-require './Predictions/prediction'
-require './Mems/mem'
-require './Dictionary/dictionary'
+require_relative './Predictions/prediction'
+require_relative './Mems/mem'
+require_relative './Dictionary/dictionary'
 
 module Helpers
   def response_with
