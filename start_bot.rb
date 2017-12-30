@@ -1,6 +1,6 @@
-require './helpers'
-require './message_answer'
-require './inline_answer'
+require_relative './helpers'
+require_relative './message_answer'
+require_relative './inline_answer'
 
 require 'telegram/bot'
 require 'unicode'
