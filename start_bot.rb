@@ -14,16 +14,21 @@ module RandomStupidNameBot
 
   def self.run
     token = '143189706:AAEXwSs96fpAuifImBg8NwsIdJoX56eD76k'
+    logger = Logger.new('logs.log')
 
-    Telegram::Bot::Client.run(token, logger: Logger.new($stdout)) do |bot|
+    Telegram::Bot::Client.run(token, logger: logger) do |bot|
       @dictionary = Dictionary.new.dictionary
       bot.listen do |message|
-        puts message.inspect
-        case message
-        when Telegram::Bot::Types::InlineQuery
-          answer_to_inline(message, bot)
-        when Telegram::Bot::Types::Message
-          answer_to_message(message, bot)
+        begin
+        puts bot.logger.info(message.inspect)
+          case message
+          when Telegram::Bot::Types::InlineQuery
+            answer_to_inline(message, bot)
+          when Telegram::Bot::Types::Message
+            answer_to_message(message, bot)
+          end
+        rescue => e
+          bot.logger.error(e)
         end
       end
     end
